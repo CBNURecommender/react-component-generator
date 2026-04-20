@@ -11,10 +11,18 @@ interface ComponentCardProps {
 }
 
 type Tab = 'preview' | 'code';
+type ViewportSize = 'mobile' | 'tablet' | 'desktop';
+
+const VIEWPORT_WIDTHS: Record<ViewportSize, number> = {
+  mobile: 375,
+  tablet: 768,
+  desktop: 1024,
+};
 
 export function ComponentCard({ component, onRemove, onRegenerate, isLoading }: ComponentCardProps) {
   const [activeTab, setActiveTab] = useState<Tab>('preview');
   const [previewKey, setPreviewKey] = useState(0);
+  const [viewportSize, setViewportSize] = useState<ViewportSize>('desktop');
 
   return (
     <div className="component-card">
@@ -56,10 +64,33 @@ export function ComponentCard({ component, onRemove, onRegenerate, isLoading }: 
         >
           코드
         </button>
+        {activeTab === 'preview' && (
+          <div className="viewport-controls">
+            {(['mobile', 'tablet', 'desktop'] as const).map((size) => (
+              <button
+                key={size}
+                className={`viewport-btn ${viewportSize === size ? 'viewport-btn--active' : ''}`}
+                onClick={() => setViewportSize(size)}
+                title={`${size === 'mobile' ? '375px' : size === 'tablet' ? '768px' : '1024px'}`}
+              >
+                {size === 'mobile' ? '📱' : size === 'tablet' ? '📱' : '🖥️'}
+                <span>{size === 'mobile' ? 'Mobile' : size === 'tablet' ? 'Tablet' : 'Desktop'}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
       <div className="card-content">
         {activeTab === 'preview' ? (
-          <LivePreview key={previewKey} code={component.code} />
+          <LivePreview
+            key={previewKey}
+            code={component.code}
+            viewportWidth={VIEWPORT_WIDTHS[viewportSize]}
+            onViewportChange={(width) => {
+              const sizeKey = Object.entries(VIEWPORT_WIDTHS).find(([_, w]) => w === width)?.[0];
+              if (sizeKey) setViewportSize(sizeKey as ViewportSize);
+            }}
+          />
         ) : (
           <CodeView code={component.code} />
         )}
