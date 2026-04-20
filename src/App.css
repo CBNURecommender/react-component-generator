@@ -479,10 +479,12 @@
   display: flex;
   border-bottom: 1px solid var(--lg-border);
   background: var(--lg-bg-light);
+  padding: 0 1.25rem;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .tab {
-  flex: 1;
   padding: 0.75rem;
   background: transparent;
   border: none;
@@ -529,6 +531,7 @@
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid var(--lg-border);
   background: var(--lg-bg-light);
+  gap: 1rem;
 }
 
 .panel-header h3 {
@@ -540,11 +543,52 @@
   margin: 0;
 }
 
+.viewport-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Viewport Controls */
+.viewport-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+  align-items: center;
+}
+
+.viewport-btn {
+  padding: 0.4rem 0.75rem;
+  background: var(--lg-bg-white);
+  border: 1px solid var(--lg-border);
+  border-radius: 3px;
+  color: var(--lg-text-secondary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.viewport-btn:hover {
+  border-color: var(--lg-secondary);
+  color: var(--lg-primary);
+  background: var(--lg-bg-white);
+}
+
+.viewport-btn--active {
+  border-color: var(--lg-accent);
+  color: var(--lg-accent);
+  background: rgba(0, 102, 204, 0.08);
+  font-weight: 600;
+}
+
 /* Preview */
 .preview-content {
   padding: 1.5rem;
   flex: 1;
   overflow-y: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .preview-render {
@@ -557,6 +601,7 @@
   border: 1px solid var(--lg-border);
   border-radius: 4px;
   overflow: auto;
+  transition: width 0.3s ease;
 }
 
 .preview-error {
